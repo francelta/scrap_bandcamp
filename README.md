@@ -1,98 +1,51 @@
-<div align="center" id="top"> 
-  <img src="./.github/app.gif" alt="Scraping" />
 
-  &#xa0;
+<h1>Descripción del Proyecto</h1>
+<p>Este proyecto utiliza Selenium para realizar scraping de datos de la página web de Bandcamp, específicamente extrayendo información de la lista de deseos (wishlist) de un usuario, los géneros musicales que sigue, y otros datos relacionados con artistas y etiquetas musicales. El propósito es analizar la alineación de los intereses musicales del usuario con su lista de deseos y proporcionar un índice de "reliability" que refleje esta alineación.</p>
 
-  <!-- <a href="https://scraping.netlify.app">Demo</a> -->
-</div>
+<h2>Requisitos</h2>
+<ul>
+<li>Python 3.8+</li>
+<li>Selenium WebDriver</li>
+<li>ChromeDriver compatible con la versión instalada de Google Chrome</li>
+</ul>
 
-<h1 align="center">Scraping</h1>
+<h2>Instalación y Configuración</h2>
+<h3>Dependencias</h3>
+<p>Para ejecutar este script, necesitarás instalar Selenium. Esto se puede hacer a través de pip:</p>
+<pre><code>pip install selenium</code></pre>
 
-<p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/{{YOUR_GITHUB_USERNAME}}/scraping?color=56BEB8">
+<h3>WebDriver</h3>
+<p>Necesitarás descargar ChromeDriver y asegurarte de que esté actualizado según tu versión de Google Chrome. El driver debe estar en el mismo directorio que los scripts de Python o especificado correctamente en la variable <code>driver_path</code>.</p>
 
-  <img alt="Github language count" src="https://img.shields.io/github/languages/count/{{YOUR_GITHUB_USERNAME}}/scraping?color=56BEB8">
+<a href="https://chromedriver.chromium.org/downloads"> Pincha aquí para descargar Chromedriver </a>
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/{{YOUR_GITHUB_USERNAME}}/scraping?color=56BEB8">
+<h2>Estructura del Proyecto</h2>
+<p>El proyecto consiste en varios componentes clave:</p>
+<ul>
+<li><strong>AbstractScrapingClass:</strong> Una clase que encapsula todas las funcionalidades de Selenium para interactuar con la página web, gestionar la sesión del navegador, y realizar el scraping de datos.</li>
+<li><strong>WhishData:</strong> Una clase para estructurar y almacenar datos sobre cada elemento de la lista de deseos.</li>
+</ul>
 
-  <img alt="License" src="https://img.shields.io/github/license/{{YOUR_GITHUB_USERNAME}}/scraping?color=56BEB8">
+<h2>Decisiones Técnicas</h2>
+<h3>Uso de Selenium</h3>
+<p>Se eligió Selenium por su capacidad para interactuar con páginas web dinámicas, manejar sesiones de usuario y ejecutar JavaScript, lo cual es crucial para sitios complejos como Bandcamp.</p>
 
-  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/{{YOUR_GITHUB_USERNAME}}/scraping?color=56BEB8" /> -->
+<h3>Manejo de la Caché</h3>
+<p>Se implementaron métodos para limpiar la caché del navegador para evitar problemas de datos obsoletos y asegurar que los tests o las sesiones de scraping no se vean afectados por datos residuales.</p>
 
-  <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/{{YOUR_GITHUB_USERNAME}}/scraping?color=56BEB8" /> -->
+<h3>Estructura de Datos</h3>
+<p>Las estructuras de datos utilizadas son:</p>
+<ul>
+<li><strong>WhishData:</strong> Almacena información de títulos, artistas y géneros. Se utiliza para estructurar los datos de manera que puedan ser fácilmente manipulados y accedidos.</li>
+<li><strong>Diccionarios para wishlist, labels_artists, y followed_genres:</strong> Permiten un acceso y manipulación eficiente de los datos, además de ser compatibles con la conversión a JSON para posibles usos en APIs o almacenamiento.</li>
+</ul>
 
-  <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/{{YOUR_GITHUB_USERNAME}}/scraping?color=56BEB8" /> -->
-</p>
+<h3>Cálculo de Reliability</h3>
+<p>El índice de reliability se calcula como la proporción de elementos en la lista de deseos que coinciden con los géneros seguidos, proporcionando una métrica cuantitativa de cuán alineados están los intereses del usuario con sus acciones de seguimiento.</p>
 
-<!-- Status -->
+<h2>Problemas y Soluciones</h2>
+<p>Durante el desarrollo, se enfrentaron desafíos como la gestión de CAPTCHAs y sesiones expiradas, que se manejaron mediante reintentos y sesiones de navegador limpias.</p>
 
-<!-- <h4 align="center"> 
-	🚧  Scraping 🚀 Under construction...  🚧
-</h4> 
+<h2>Conclusión</h2>
+<p>Este script proporciona una herramienta útil para análisis de datos de usuario en Bandcamp, con potencial para expandirse a otras funcionalidades como recomendaciones basadas en datos extraídos y análisis de tendencias.</p>
 
-<hr> -->
-
-<p align="center">
-  <a href="#dart-about">About</a> &#xa0; | &#xa0; 
-  <a href="#sparkles-features">Features</a> &#xa0; | &#xa0;
-  <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
-  <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
-  <a href="#checkered_flag-starting">Starting</a> &#xa0; | &#xa0;
-  <a href="#memo-license">License</a> &#xa0; | &#xa0;
-  <a href="https://github.com/{{YOUR_GITHUB_USERNAME}}" target="_blank">Author</a>
-</p>
-
-<br>
-
-## :dart: About ##
-
-Describe your project
-
-## :sparkles: Features ##
-
-:heavy_check_mark: Feature 1;\
-:heavy_check_mark: Feature 2;\
-:heavy_check_mark: Feature 3;
-
-## :rocket: Technologies ##
-
-The following tools were used in this project:
-
-- [Expo](https://expo.io/)
-- [Node.js](https://nodejs.org/en/)
-- [React](https://pt-br.reactjs.org/)
-- [React Native](https://reactnative.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-
-## :white_check_mark: Requirements ##
-
-Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) and [Node](https://nodejs.org/en/) installed.
-
-## :checkered_flag: Starting ##
-
-```bash
-# Clone this project
-$ git clone https://github.com/{{YOUR_GITHUB_USERNAME}}/scraping
-
-# Access
-$ cd scraping
-
-# Install dependencies
-$ yarn
-
-# Run the project
-$ yarn start
-
-# The server will initialize in the <http://localhost:3000>
-```
-
-## :memo: License ##
-
-This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
-
-
-Made with :heart: by <a href="https://github.com/{{YOUR_GITHUB_USERNAME}}" target="_blank">{{YOUR_NAME}}</a>
-
-&#xa0;
-
-<a href="#top">Back to top</a>
