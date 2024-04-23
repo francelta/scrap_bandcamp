@@ -8,7 +8,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import json
 import os
 import time
-import sys
+
 
 
 class WhishData:
@@ -60,7 +60,7 @@ class AbstractScrapingClass:
             
             login_button = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div/div[1]/ul[2]/li[3]/a"))) # Busca el botón de login de la página
             login_button.click() # Hace click en el botón
-            time.sleep(2)
+            time.sleep(3)
 
             username_field = wait.until(EC.presence_of_element_located((By.ID, "username-field"))) # Busca el campo de usuario
             password_field = wait.until(EC.presence_of_element_located((By.ID, "password-field"))) # Busca el campo de contraseña
@@ -92,10 +92,10 @@ class AbstractScrapingClass:
             # Hace click en el botón de géneros
             genres_button = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[7]/div/div[1]/div[1]/div[2]/div[1]/div/ol/li[3]")))
             genres_button.click()
-            time.sleep(2)
+            time.sleep(3)
             genre= wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[7]/div/div[1]/div[1]/div[2]/div[7]/div/div[1]/ol/li[2]")))
             genre.click()
-            time.sleep(2)
+            time.sleep(3)
             inners= wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[7]/div/div[1]/div[1]/div[2]/div[7]/div/div[4]/div/div/ol")))
             lista_inners= inners.find_elements(By.TAG_NAME, "li")
             for inner in lista_inners:
@@ -119,7 +119,7 @@ class AbstractScrapingClass:
 
         # Click en el enlace que abre una nueva pestaña
         enlace.click()
-        time.sleep(2) 
+        time.sleep(3) 
 
         # Captura todas las identificaciones de las pestañas
         original_window = self.driver.current_window_handle
@@ -131,7 +131,7 @@ class AbstractScrapingClass:
 
         # Ejecuta el scroll y espera
         self.driver.execute_script("window.scrollTo(300, document.body.scrollHeight);")
-        time.sleep(2)  
+        time.sleep(3)  
 
         try:
             genres_list = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "tralbum-tags"))
@@ -194,7 +194,7 @@ class AbstractScrapingClass:
             print("Obteniendo labels y artistas...")
             labels_artists_button = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[7]/div/div[1]/div[1]/div[2]/div[1]/div/ol/li[3]")))
             labels_artists_button.click()
-            time.sleep(2)
+            time.sleep(3)
             labels_artists_list = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[7]/div/div[1]/div[1]/div[2]/div[7]/div/div[3]/div/div/ol")))
             list_items = labels_artists_list.find_elements(By.TAG_NAME, "li")
             
@@ -246,11 +246,11 @@ class AbstractScrapingClass:
         try:
             print("Procesando datos...")
             wishlist = self.getWishlist()
-            time.sleep(2)
+            time.sleep(3)
             labels_artists = self.getLabelsArtists()
-            time.sleep(2)
+            time.sleep(3)
             followed_genres = self.getFollowedGenres()
-            time.sleep(2)
+            time.sleep(3)
             reliability = self.getReliability(wishlist, followed_genres)
 
             # json, porque está superextendido en apis, aplicaciones, etc...
