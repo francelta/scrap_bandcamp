@@ -30,59 +30,51 @@ class AbstractScrapingClass:
         self.driver_path = driver_path
         self.driver = self.start_driver()
 
+    # Método para iniciar el driver
     def start_driver(self):
         options = webdriver.ChromeOptions()
         options.add_argument('start-maximized')
         options.headless = False
         service = Service(executable_path=self.driver_path)
         return webdriver.Chrome(service=service, options=options)
-
+    
+    # Método para borrar la caché
     def clear_cache(self):
         if self.driver:
             self.driver.delete_all_cookies()
-            self.driver.execute_script("window.localStorage.clear();")
+            self.driver.execute_script("window.localStorage.clear();") # Limpiar 
             self.driver.execute_script("window.sessionStorage.clear();")
 
-    def quit(self):
-        if self.driver:
-            self.driver.quit()
-            self.d
-
-    def clear_cache(self):
-        self.driver.delete_all_cookies()  # Eliminar cookies
-        self.driver.execute_script("window.localStorage.clear();")  # Limpiar localStorage
-        self.driver.execute_script("window.sessionStorage.clear();")  # Limpiar sessionStorage
-        
-
+    # Método para iniciar sesión
     def login(self, url, username, password):
         options = webdriver.ChromeOptions()
         options.add_argument('start-maximized')  # Maximiza la ventana del navegador
         options.headless = False
        
-        service = Service(executable_path=self.driver_path)
-        self.driver = webdriver.Chrome(service=service, options=options)
-        self.driver.get(url)
+        service = Service(executable_path=self.driver_path) # Inicializa el servicio
+        self.driver = webdriver.Chrome(service=service, options=options) # Inicializa el driver
+        self.driver.get(url) # Abre la página
 
-        wait = WebDriverWait(self.driver, 5)
+        wait = WebDriverWait(self.driver, 5) 
         try:
             
-            login_button = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div/div[1]/ul[2]/li[3]/a")))
-            login_button.click()
+            login_button = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div/div[1]/ul[2]/li[3]/a"))) # Busca el botón de login de la página
+            login_button.click() # Hace click en el botón
             time.sleep(2)
 
-            username_field = wait.until(EC.presence_of_element_located((By.ID, "username-field")))
-            password_field = wait.until(EC.presence_of_element_located((By.ID, "password-field")))
-            login_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
+            username_field = wait.until(EC.presence_of_element_located((By.ID, "username-field"))) # Busca el campo de usuario
+            password_field = wait.until(EC.presence_of_element_located((By.ID, "password-field"))) # Busca el campo de contraseña
+            login_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']"))) # Busca el botón de login
 
-            username_field.send_keys(username)
-            password_field.send_keys(password)
-            login_button.click()
+            username_field.send_keys(username) # Introduce el usuario
+            password_field.send_keys(password) # Introduce la contraseña
+            login_button.click() # Hace click en el botón de login
             time.sleep(3)  # Espera a que cargue la página
             
             return True
 
         except Exception as e:
-            print(f"Error durante el login: {e}")
+            print(f"Error durante el login: {e}") 
 
             return False
 
@@ -97,8 +89,8 @@ class AbstractScrapingClass:
         wait = WebDriverWait(self.driver, 5)
         try:
             print("Obteniendo géneros seguidos...")
+            # Hace click en el botón de géneros
             genres_button = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[7]/div/div[1]/div[1]/div[2]/div[1]/div/ol/li[3]")))
-            
             genres_button.click()
             time.sleep(2)
             genre= wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[7]/div/div[1]/div[1]/div[2]/div[7]/div/div[1]/ol/li[2]")))
@@ -115,8 +107,9 @@ class AbstractScrapingClass:
             return genres
         except:
             return genres
-
-    def getGenres(self, enlace):
+        
+    # Método para obtener los géneros de un enlace
+    def getGenres(self, enlace): 
         genres = []
         wait = WebDriverWait(self.driver, 5)
 
@@ -153,6 +146,7 @@ class AbstractScrapingClass:
 
         return genres
     
+    # Método para obtener la wishlist
     def getWishlist(self):
 
         wishlist = []
@@ -164,9 +158,8 @@ class AbstractScrapingClass:
             return wishlist_dict
         
         try:
-            whislist= wait.until(EC.presence_of_element_located((By.ID, "wishlist-items")))
+            whislist= wait.until(EC.presence_of_element_located((By.ID, "wishlist-items"))) # Busca la wishlist
             list_items_ol = whislist.find_elements(By.TAG_NAME, "ol")
-            
             list_items = list_items_ol[0].find_elements(By.TAG_NAME, "li")
             list_items = [item for item in list_items if item.text] 
             for item in list_items:
@@ -179,7 +172,9 @@ class AbstractScrapingClass:
                 wishlist.append(music_data)
                 
             wishlist_dict = [item.to_dict() for item in wishlist]
+
             return wishlist_dict
+        
         except Exception as e:
             print(f"Error obteniendo wishlist: {e}")
             wishlist_dict = ['','','']
@@ -217,7 +212,8 @@ class AbstractScrapingClass:
 
         return labels_artists  
     
-    def getRetiability(self, wishlist, followed_genres):
+    # Método para calcular el índice de reliability
+    def getReliability(self, wishlist, followed_genres):
 
         total_entries = len(wishlist)
 
@@ -238,7 +234,7 @@ class AbstractScrapingClass:
             return reliability_index
 
         
-
+    # Método process
     def process(self):
 
         json_back = []
@@ -255,8 +251,9 @@ class AbstractScrapingClass:
             time.sleep(2)
             followed_genres = self.getFollowedGenres()
             time.sleep(2)
-            reliability = self.getRetiability(wishlist, followed_genres)
+            reliability = self.getReliability(wishlist, followed_genres)
 
+            # json, porque está superextendido en apis, aplicaciones, etc...
             json_back = {
                 "wishlist": wishlist,
                 "labels_artists": labels_artists,
@@ -273,10 +270,12 @@ class AbstractScrapingClass:
                 self.driver.quit()
 
 def main():
+    # Inicializa el scraper
     current_directory = os.path.dirname(os.path.abspath(__file__))
     driver_path = os.path.join(current_directory, 'chromedriver')
     scraper = AbstractScrapingClass(driver_path=driver_path)
-
+    
+    # Inicia el proceso
     try:
         print("Iniciando...")
         if not scraper.login("https://bandcamp.com/", "abacotestscraping", "TEst1234$"):
@@ -284,12 +283,18 @@ def main():
         
         result = scraper.process()
         print(result)
+
+        # Guardar el resultado en un archivo
+        with open('bandcamp.txt', 'w') as file:
+            file.write(result)
+        print("Resultado guardado en bandcamp.txt")
+        
     except Exception as e:
         print(f"Error: {e}")
-    
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
+
 
 
 

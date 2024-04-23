@@ -47,5 +47,6 @@
 <p>Durante el desarrollo, se enfrentaron desafíos como la gestión de CAPTCHAs y sesiones expiradas, que se manejaron mediante reintentos y sesiones de navegador limpias.</p>
 
 <h2>Conclusión</h2>
-<p>Este script proporciona una herramienta útil para análisis de datos de usuario en Bandcamp, con potencial para expandirse a otras funcionalidades como recomendaciones basadas en datos extraídos y análisis de tendencias.</p>
+<p>Este script proporciona una herramienta útil para análisis de datos de usuario en Bandcamp, no hay que olvidar que ésta página tiene una protección anti bot re-captcha, que por experiencia se manifiesta cuando se llevan varios intentos seguidos de acceso muy simultáneos, ésta protección aún así se puede solventar con métodos más extensos usando IA.</p>
+<p> finalmente el resultado se almacena en un archivo txt (bandcamp.txt) </p>
 
